@@ -1,0 +1,7 @@
+Options -MultiViews -Indexes
+
+RewriteEngine On
+
+# Redirect to public/
+RewriteRule ^$ public/ [L]
+RewriteRule ^((?!public/).*)$ public/$1 [L,NC]
