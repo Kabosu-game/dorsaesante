@@ -40,8 +40,20 @@ jobs:
       - name: Fix permissions on VPS
         run: |
           ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
-            "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_IP }}" \
-            "chown -R apache:apache ${{ secrets.DEPLOY_PATH }} && chmod -R 755 ${{ secrets.DEPLOY_PATH }} && chmod -R 775 ${{ secrets.DEPLOY_PATH }}/storage && chmod -R 775 ${{ secrets.DEPLOY_PATH }}/bootstrap/cache && ([ -f ${{ secrets.DEPLOY_PATH }}/.env ] && chmod 644 ${{ secrets.DEPLOY_PATH }}/.env || true)"
+            "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_IP }}" "
+            mkdir -p ${{ secrets.DEPLOY_PATH }}/storage/app/public &&
+            mkdir -p ${{ secrets.DEPLOY_PATH }}/storage/framework/cache &&
+            mkdir -p ${{ secrets.DEPLOY_PATH }}/storage/framework/sessions &&
+            mkdir -p ${{ secrets.DEPLOY_PATH }}/storage/framework/testing &&
+            mkdir -p ${{ secrets.DEPLOY_PATH }}/storage/framework/views &&
+            mkdir -p ${{ secrets.DEPLOY_PATH }}/storage/logs &&
+            mkdir -p ${{ secrets.DEPLOY_PATH }}/bootstrap/cache &&
+            chown -R apache:apache ${{ secrets.DEPLOY_PATH }} &&
+            chmod -R 755 ${{ secrets.DEPLOY_PATH }} &&
+            chmod -R 775 ${{ secrets.DEPLOY_PATH }}/storage &&
+            chmod -R 775 ${{ secrets.DEPLOY_PATH }}/bootstrap/cache &&
+            ([ -f ${{ secrets.DEPLOY_PATH }}/.env ] && chmod 644 ${{ secrets.DEPLOY_PATH }}/.env || true)
+          "
 
       - name: Run commands on VPS
         run: |
