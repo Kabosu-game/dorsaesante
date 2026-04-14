@@ -14,7 +14,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: '8.3'
           extensions: intl, mbstring, xml, zip, curl, gd, bcmath, pdo_mysql
 
       - name: Update Composer dependencies
@@ -90,7 +90,7 @@ jobs:
               echo "⚠️ .env absent, artisan ignoré"
             fi
 
-            sudo systemctl reload php8.3-fpm || true
+            sudo systemctl reload php-fpm || true
             sudo systemctl reload nginx || true
 
             echo "✅ Déploiement dorsaesante terminé"
